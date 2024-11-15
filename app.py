@@ -5,7 +5,8 @@ import bcrypt
 import os
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
-from flasgger import swag_from, Swagger
+from flasgger import swag_from
+from swagger.swagger_config import init_swagger
 
 
 # Load environment variables from .env file
@@ -14,7 +15,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Initialize Swagger
-swagger = Swagger(app)
+init_swagger(app)
 
 # Configuration
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -79,7 +80,7 @@ def home():
     })
 
 @app.route('/register', methods=['POST'])
-@swag_from('/swagger/register.yaml')
+#@swag_from('swagger/register.yaml')
 def register():
     data = request.get_json()
     
@@ -105,7 +106,7 @@ def register():
         conn.close()
 
 @app.route('/login', methods=['POST'])
-@swag_from('/swagger/login.yaml')
+#@swag_from('swagger/login.yaml')
 def login():
     data = request.get_json()
     
