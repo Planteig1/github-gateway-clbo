@@ -5,11 +5,16 @@ import bcrypt
 import os
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
+from flasgger import swag_from, Swagger
+
 
 # Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__)
+
+# Initialize Swagger
+swagger = Swagger(app)
 
 # Configuration
 app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
@@ -74,6 +79,7 @@ def home():
     })
 
 @app.route('/register', methods=['POST'])
+@swag_from('swagger/register.yaml')
 def register():
     data = request.get_json()
     
@@ -99,6 +105,7 @@ def register():
         conn.close()
 
 @app.route('/login', methods=['POST'])
+@swag_from('swagger/login.yaml')
 def login():
     data = request.get_json()
     
@@ -123,6 +130,7 @@ def login():
     return jsonify({"error": "Invalid username or password"}), 401
 
 @app.route('/api/github/stats', methods=['GET'])
+@swag_from('swagger/github_stats.yaml')
 @jwt_required()
 def get_github_stats():
     try:

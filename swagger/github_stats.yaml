@@ -1,0 +1,40 @@
+swagger: '2.0'
+info:
+  description: API for fetching GitHub statistics
+  version: 1.0.0
+  title: GitHub Stats API
+paths:
+  /api/github/stats:
+    get:
+      tags:
+        - github
+      summary: Get GitHub statistics
+      description: This endpoint fetches statistics from another microservice.
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          description: JWT token for authorization
+      responses:
+        200:
+          description: Successful response
+          schema:
+            type: object
+            properties:
+              requested_by:
+                type: string
+                description: User who requested the stats
+              stats:
+                type: object
+                description: GitHub statistics
+        500:
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Internal server error

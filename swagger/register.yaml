@@ -1,0 +1,56 @@
+swagger: '2.0'
+info:
+  description: API for user registration
+  version: 1.0.0
+  title: User Registration API
+paths:
+  /register:
+    post:
+      tags:
+        - user
+      summary: Register a new user
+      description: This endpoint allows a new user to register by providing a username and password.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added
+          required: true
+          schema:
+            type: object
+            required:
+              - username
+              - password
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        201:
+          description: User created successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: User created successfully
+        400:
+          description: Missing username or password
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Missing username or password
+        409:
+          description: Username already exists
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Username already exists
