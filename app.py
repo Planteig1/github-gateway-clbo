@@ -80,7 +80,7 @@ def home():
     })
 
 @app.route('/register', methods=['POST'])
-#@swag_from('swagger/register.yaml')
+@swag_from('swagger/register.yaml')
 def register():
     data = request.get_json()
     
@@ -106,7 +106,7 @@ def register():
         conn.close()
 
 @app.route('/login', methods=['POST'])
-#@swag_from('swagger/login.yaml')
+@swag_from('swagger/login.yaml')
 def login():
     data = request.get_json()
     
@@ -130,10 +130,11 @@ def login():
     
     return jsonify({"error": "Invalid username or password"}), 401
 
-@app.route('/api/github/stats', methods=['GET'])
-@swag_from('/swagger/github_stats.yaml')
+@app.route('/github/stats', methods=['GET'])
 @jwt_required()
+@swag_from('swagger/github_stats.yaml')
 def get_github_stats():
+
     try:
         current_user = get_jwt_identity()
         # Get the JWT token from the request header
@@ -150,4 +151,4 @@ def get_github_stats():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

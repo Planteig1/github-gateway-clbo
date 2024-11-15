@@ -30,6 +30,7 @@ paths:
               stats:
                 type: object
                 description: GitHub statistics
+                additionalProperties: true
         500:
           description: Internal server error
           schema:
